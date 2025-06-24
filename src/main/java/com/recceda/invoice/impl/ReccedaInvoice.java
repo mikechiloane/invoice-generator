@@ -50,7 +50,7 @@ public class ReccedaInvoice {
                     new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A")
             };
 
-            CustomerInvoiceData customerInvoiceData = new CustomerInvoiceData("Faboda", getAddressLinesFromFile(),
+            CustomerInvoiceData customerInvoiceData = new CustomerInvoiceData("Faboda", null,
                     invoiceItems);
 
             PdfContext context = new PdfContext(customerInvoiceData, font, document);
