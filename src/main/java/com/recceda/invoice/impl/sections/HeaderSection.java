@@ -12,7 +12,6 @@ import com.recceda.invoice.context.PdfContext;
 
 public class HeaderSection implements PdfSection {
 
-
     @Override
     public void addToStream(PdfContext context, PDPageContentStream contentStream) throws Exception {
 
@@ -21,6 +20,7 @@ public class HeaderSection implements PdfSection {
             addLogo(context, contentStream);
             addInvoiceNumberToStream(contentStream, context);
             addAddressToStream(contentStream, context);
+            addCustomerAddressToStream(contentStream, context);
 
         } catch (Exception e) {
             System.err.println("Error adding header section: " + e.getMessage());
@@ -33,11 +33,21 @@ public class HeaderSection implements PdfSection {
         TextUtils.addTextToTheRight(contentStream, invoiceText, context, context.getStartY());
     }
 
+    public void addCustomerAddressToStream(PDPageContentStream contentStream, PdfContext context) throws IOException {
+        String customerName = context.getCustomerData().getCustomerName();
+        float gap  = 60;
+        TextUtils.addTextToTheRight(contentStream, customerName, context, context.getStartY() - gap);
+        for (String line : Objects.requireNonNull(context.getCustomerData().getAddressLines())) {
+            gap += 15;
+            TextUtils.addTextToTheRight(contentStream, line, context, context.getStartY() - gap);
+        }
+    }
+
     public void addAddressToStream(PDPageContentStream contentStream, PdfContext context) throws IOException {
         float startY = context.getStartY() - 20;
 
         for (String line : Objects.requireNonNull(getAddressLinesFromFile())) {
-            TextUtils.addTextToTheLeft(contentStream, line, context, startY-40);
+            TextUtils.addTextToTheLeft(contentStream, line, context, startY - 40);
             startY -= 15;
         }
     }
@@ -62,7 +72,7 @@ public class HeaderSection implements PdfSection {
         PDImageXObject logo = PDImageXObject.createFromFile("src/main/resources/logo.png", context.getDocument());
         float logHeight = 10;
         float logWidth = logo.getWidth() * logHeight / logo.getHeight();
-        contentStream.drawImage(logo, context.getStartX(), context.getStartY() , logWidth, logHeight);
+        contentStream.drawImage(logo, context.getStartX(), context.getStartY(), logWidth, logHeight);
     }
 
 }

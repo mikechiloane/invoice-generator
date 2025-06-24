@@ -1,13 +1,17 @@
 package com.recceda.invoice.context;
 
-import com.recceda.invoice.common.CustomerInvoiceData;
+import java.awt.Color;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 
+import com.recceda.invoice.common.CustomerInvoiceData;
+
 public final class PdfContext {
     private final String invoiceNumber;
     private final CustomerInvoiceData customerData;
+    private final Color primaryColor = new Color(25, 43, 55); // Dark Blue Color
 
     private final PDDocument document;
 
@@ -75,4 +79,9 @@ public final class PdfContext {
     public PDDocument getDocument() {
         return document;
     }
+
+    public Color getPrimaryColor() {
+        return primaryColor;
+    }
+
 }

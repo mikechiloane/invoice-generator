@@ -2,26 +2,28 @@ package com.recceda.invoice.common;
 
 
 public class CustomerInvoiceData {
-    private String invoiceNumber;
+    private  final String customerName ;
     private String[] addressLines;
-    private InvoiceItems[] items;
+    private InvoiceItem[] items;
 
-    public CustomerInvoiceData(String invoiceNumber, String[] addressLines, InvoiceItems[] items) {
-        this.invoiceNumber = invoiceNumber;
+
+    public CustomerInvoiceData(String customerName, String[] addressLines, InvoiceItem[] items) {
         this.addressLines = addressLines;
         this.items = items;
+        this.customerName = customerName;
     }
 
-    public String getInvoiceNumber() {
-        return invoiceNumber;
-    }
-
+   
     public String[] getAddressLines() {
         return addressLines;
     }
 
-    public InvoiceItems[] getItems() {
+    public InvoiceItem[] getItems() {
         return items;
+    }
+
+    public String getCustomerName() {
+        return customerName;
     }
 
 }
