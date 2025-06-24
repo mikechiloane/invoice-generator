@@ -50,8 +50,8 @@ public class ReccedaInvoice {
                     new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A")
             };
 
-            CustomerInvoiceData customerInvoiceData = new CustomerInvoiceData("Faboda", null,
-                    invoiceItems);
+            CustomerInvoiceData customerInvoiceData = new CustomerInvoiceData("Faboda", 
+                    new String[]{"123 Default St.", "Default City", "Default Country"}, invoiceItems);
 
             PdfContext context = new PdfContext(customerInvoiceData, font, document);
             HeaderSection headerSection = new HeaderSection();
