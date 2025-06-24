@@ -2,16 +2,17 @@ package com.recceda.invoice.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
-import com.recceda.invoice.context.PdfContext;
-import com.recceda.invoice.impl.sections.HeaderSection;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+
+import com.recceda.invoice.context.PdfContext;
+import com.recceda.invoice.impl.sections.HeaderSection;
+import com.recceda.invoice.impl.sections.TableSection;
 
 public class ReccedaInvoice {
 
@@ -39,7 +40,12 @@ public class ReccedaInvoice {
 
             PdfContext context = new PdfContext(null, font, document);
             HeaderSection headerSection = new HeaderSection();
+            TableSection tableSection = new TableSection();
             headerSection.addToStream(context, contentStream);
+            tableSection.addToStream(context, contentStream);
+
+            
+            
 
         } catch (IOException e) {
             e.printStackTrace();

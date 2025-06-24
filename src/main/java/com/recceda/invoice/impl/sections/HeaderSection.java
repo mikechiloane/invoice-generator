@@ -1,13 +1,14 @@
 package com.recceda.invoice.impl.sections;
 
-import com.recceda.invoice.common.TextUtils;
-import com.recceda.invoice.context.PdfContext;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+
+import com.recceda.invoice.common.TextUtils;
+import com.recceda.invoice.context.PdfContext;
 
 public class HeaderSection implements PdfSection {
 
@@ -36,7 +37,7 @@ public class HeaderSection implements PdfSection {
         float startY = context.getStartY() - 20;
 
         for (String line : Objects.requireNonNull(getAddressLinesFromFile())) {
-            TextUtils.addTextToTheLeft(contentStream, line, context, startY);
+            TextUtils.addTextToTheLeft(contentStream, line, context, startY-40);
             startY -= 15;
         }
     }
