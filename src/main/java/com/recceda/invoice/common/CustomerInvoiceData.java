@@ -8,7 +8,7 @@ public class CustomerInvoiceData {
 
 
     public CustomerInvoiceData(String customerName, String[] addressLines, InvoiceItem[] items) {
-        this.addressLines = addressLines;
+        this.addressLines =  addressLines;
         this.items = items;
         this.customerName = customerName;
     }
