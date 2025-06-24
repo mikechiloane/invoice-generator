@@ -55,8 +55,8 @@ public class HeaderSection implements PdfSection {
             return;
 
         for (String line : addressLines) {
-            gap += CUSTOMER_LINE_SPACING;
             TextUtils.addTextToTheRight(contentStream, line, context, context.getStartY() - gap);
+            gap += CUSTOMER_LINE_SPACING;
         }
     }
 
