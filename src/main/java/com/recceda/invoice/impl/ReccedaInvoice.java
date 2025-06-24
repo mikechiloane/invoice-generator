@@ -10,6 +10,8 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import com.recceda.invoice.common.CustomerInvoiceData;
+import com.recceda.invoice.common.InvoiceItem;
 import com.recceda.invoice.context.PdfContext;
 import com.recceda.invoice.impl.sections.HeaderSection;
 import com.recceda.invoice.impl.sections.TableSection;
@@ -38,14 +40,24 @@ public class ReccedaInvoice {
         try (PDPageContentStream contentStream = new PDPageContentStream(document, document.getPage(0),
                 PDPageContentStream.AppendMode.APPEND, true, true)) {
 
-            PdfContext context = new PdfContext(null, font, document);
+            InvoiceItem[] invoiceItems = new InvoiceItem[] {
+
+                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
+                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
+                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
+                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
+                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
+                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A")
+            };
+
+            CustomerInvoiceData customerInvoiceData = new CustomerInvoiceData("Faboda", getAddressLinesFromFile(),
+                    invoiceItems);
+
+            PdfContext context = new PdfContext(customerInvoiceData, font, document);
             HeaderSection headerSection = new HeaderSection();
             TableSection tableSection = new TableSection();
             headerSection.addToStream(context, contentStream);
             tableSection.addToStream(context, contentStream);
-
-            
-            
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,7 +66,7 @@ public class ReccedaInvoice {
         }
 
         try {
-            document.save( "invoice.pdf");
+            document.save("invoice.pdf");
             document.close();
             System.out.println("Invoice generated successfully!");
         } catch (IOException e) {
