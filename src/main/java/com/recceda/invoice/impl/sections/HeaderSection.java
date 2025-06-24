@@ -65,7 +65,7 @@ public class HeaderSection implements PdfSection {
         String[] addressLines = getAddressLinesFromResource();
 
         for (String line : addressLines) {
-            TextUtils.addTextToTheLeft(contentStream, line, context, startY - 40);
+            TextUtils.addTextToTheLeft(contentStream, line, context, startY - ADDRESS_INITIAL_OFFSET);
             startY -= ADDRESS_LINE_SPACING;
         }
     }
