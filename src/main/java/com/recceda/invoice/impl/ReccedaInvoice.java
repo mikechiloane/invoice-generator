@@ -8,7 +8,6 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import com.recceda.invoice.common.CustomerInvoiceData;
 import com.recceda.invoice.common.InvoiceItem;
@@ -33,7 +32,6 @@ public class ReccedaInvoice {
             font = PDType0Font.load(document, new File("src/main/resources/futura.ttf"));
             fontBold = PDType0Font.load(document, new File("src/main/resources/futura_bold.ttf"));
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException("Failed to load font");
         }
 
@@ -66,9 +64,8 @@ public class ReccedaInvoice {
             PaymentTermsSection paymentTermsSection = new PaymentTermsSection();
             paymentTermsSection.addToStream(context, contentStream);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -77,73 +74,12 @@ public class ReccedaInvoice {
             document.close();
             System.out.println("Invoice generated successfully!");
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to save invoice", e);
         }
     }
 
-    public void addLogoToStream(PDPageContentStream contentStream, PDImageXObject logo, float startX, float startY,
-            float logHeight) throws IOException {
-        float logWidth = logo.getWidth() * logHeight / logo.getHeight();
-        contentStream.drawImage(logo, startX, startY - logHeight - 10, logWidth, logHeight);
-    }
 
-    public String[] getAddressLinesFromFile() {
-        File addressFile = new File("src/main/resources/address");
-        if (!addressFile.exists()) {
-            throw new RuntimeException("Address file not found: " + addressFile.getAbsolutePath());
-        }
 
-        String[] addressLines;
-        try {
-            addressLines = java.nio.file.Files.readString(addressFile.toPath()).split("\n");
-        } catch (IOException e) {
-            System.err.println("Error reading address file: " + e.getMessage());
-            return null;
-        }
-        return addressLines;
-    }
 
-    public void addTextToTheLeft(PDPageContentStream contentStream, String text, float leftMarginX,
-            float startY) throws IOException {
-        float fontSize = 12;
-        float textWidth = font.getStringWidth(text) / 1000 * fontSize;
-
-        float textX = leftMarginX;
-
-        contentStream.beginText();
-        contentStream.setFont(this.font, fontSize);
-        contentStream.newLineAtOffset(textX, startY);
-        contentStream.showText(text);
-        contentStream.endText();
-    }
-
-    public void addTextToTheRight(PDPageContentStream contentStream, String text, float rightMarginX,
-            float startY) throws IOException {
-        float fontSize = 12;
-        float textWidth = font.getStringWidth(text) / 1000 * fontSize;
-
-        float textX = rightMarginX - textWidth;
-
-        contentStream.beginText();
-        contentStream.setFont(this.font, fontSize);
-        contentStream.newLineAtOffset(textX, startY);
-        contentStream.showText(text);
-        contentStream.endText();
-    }
-
-    public void addInvoiceNumberToStream(PDPageContentStream contentStream, String invoiceNumber, float rightMarginX,
-            float startY) throws IOException {
-        String text = "Invoice Number: " + invoiceNumber;
-        float fontSize = 12;
-        float textWidth = font.getStringWidth(text) / 1000 * fontSize;
-
-        float textX = rightMarginX - textWidth;
-
-        contentStream.beginText();
-        contentStream.setFont(this.font, fontSize);
-        contentStream.newLineAtOffset(textX, startY);
-        contentStream.showText(text);
-        contentStream.endText();
-    }
 
 }
