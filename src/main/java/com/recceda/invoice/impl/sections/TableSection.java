@@ -13,18 +13,21 @@ public class TableSection implements PdfSection {
 
     @Override
     public void addToStream(PdfContext context, PDPageContentStream contentStream) throws Exception {
-        drawTableHeader(contentStream, context.getStartY() - 250, context);
-        drawTableRows(contentStream, context.getStartY() - 270, context);
-        addSubTotal(contentStream, context.getStartY() - 270 - 20 * context.getCustomerData().getItems().length,
+        drawTableHeader(contentStream, calculateYCoordinate(context, 250), context);
+        drawTableRows(contentStream, calculateYCoordinate(context, 270), context);
+        addSubTotal(contentStream, calculateYCoordinate(context, 270 + 20 * context.getCustomerData().getItems().length),
                 context);
-        addTaxRate(contentStream, context.getStartY() - 270 - 20 * context.getCustomerData().getItems().length - 20,
+        addTaxRate(contentStream, calculateYCoordinate(context, 270 + 20 * context.getCustomerData().getItems().length + 20),
                 context);
-        addTax(contentStream, context.getStartY() - 270 - 20 * context.getCustomerData().getItems().length - 20,
+        addTax(contentStream, calculateYCoordinate(context, 270 + 20 * context.getCustomerData().getItems().length + 20),
                 context);
-        addTotal(contentStream, context.getStartY() - 270 - 20 * context.getCustomerData().getItems().length - 40,
+        addTotal(contentStream, calculateYCoordinate(context, 270 + 20 * context.getCustomerData().getItems().length + 40),
                 context);
     }
 
+    private float calculateYCoordinate(PdfContext context, float offset) {
+        return context.getStartY() - offset;
+    }
     public void addSubTotal(PDPageContentStream contentStream, float startY, PdfContext context) throws IOException {
         float totalY = startY - 20; 
         String subTotalText = "Subtotal: " + context.getCustomerData().getSubTotal();
