@@ -1,12 +1,12 @@
 package com.recceda.invoice.common;
 
 public class InvoiceItem {
-    private String description;
-    private int quantity;
-    private double unitPrice;
-    private double totalPrice;
+    private final String description;
+    private final  Integer quantity;
+    private final Double unitPrice;
+    private final  Double totalPrice;
 
-    public InvoiceItem(String itemName, int quantity, double unitPrice,  String itemId, String description) {
+    public InvoiceItem(String itemName, Integer quantity, Double unitPrice,  String itemId, String description) {
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.totalPrice = quantity * unitPrice;
