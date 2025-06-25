@@ -77,11 +77,11 @@ public class TableSection implements PdfSection {
             }
 
             contentStream.setNonStrokingColor(Color.BLACK);
-            drawText(contentStream, String.valueOf(index), positions[0] + 5, y, 12, false);
-            drawText(contentStream, item.getDescription(), positions[1] + 5, y, 12, false);
-            drawText(contentStream, String.valueOf(item.getQuantity()), positions[2] + 5, y, 12, false);
-            drawText(contentStream, String.format("%.2f", item.getUnitPrice()), positions[3] + 5, y, 12, false);
-            drawText(contentStream, String.format("%.2f", item.getTotalPrice()), positions[4] + 5, y, 12, false);
+            drawText(contentStream, String.valueOf(index), positions[0] + 5, y);
+            drawText(contentStream, item.getDescription(), positions[1] + 5, y);
+            drawText(contentStream, String.valueOf(item.getQuantity()), positions[2] + 5, y);
+            drawText(contentStream, String.format("%.2f", item.getUnitPrice()), positions[3] + 5, y);
+            drawText(contentStream, String.format("%.2f", item.getTotalPrice()), positions[4] + 5, y);
 
             y -= rowHeight;
             index++;
@@ -118,11 +118,11 @@ public class TableSection implements PdfSection {
 
         for (int i = 0; i < headers.length; i++) {
             contentStream.setNonStrokingColor(Color.WHITE);
-            drawText(contentStream, headers[i], positions[i] + 5, y, 12, true);
+            drawText(contentStream, headers[i], positions[i] + 5, y);
         }
     }
 
-    private static void drawText(PDPageContentStream content, String text, float x, float y, int fontSize, boolean bold)
+    private static void drawText(PDPageContentStream content, String text, float x, float y)
             throws IOException {
         content.beginText();
         content.newLineAtOffset(x, y - 10);
