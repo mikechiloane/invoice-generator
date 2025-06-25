@@ -32,7 +32,7 @@ public class HeaderSection implements PdfSection {
             addCustomerAddressToStream(contentStream, context);
             addInvoiceDateToStream(contentStream, context);
             addDueByDateToStream(contentStream, context);
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error adding header section", e);
             throw new RuntimeException("Failed to add header section", e);
         }

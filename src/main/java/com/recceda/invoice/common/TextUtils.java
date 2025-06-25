@@ -27,14 +27,6 @@ public class TextUtils {
         contentStream.endText();
     }
 
-    public static void addTextToTheLeft(PDPageContentStream contentStream, String text, PdfContext context,
-            float startY, float fontSize) throws IOException {
-        contentStream.beginText();
-        contentStream.setFont(context.getFont(), fontSize);
-        contentStream.newLineAtOffset(context.getStartX(), startY);
-        contentStream.showText(text);
-        contentStream.endText();
-    }
 
     public static void addBoldTextToTheRight(PDPageContentStream contentStream, String text, PdfContext context,
             float startY) throws IOException {
