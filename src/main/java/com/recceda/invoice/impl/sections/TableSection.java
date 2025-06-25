@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 
 import com.recceda.invoice.common.InvoiceItem;
+import com.recceda.invoice.common.TextUtils;
 import com.recceda.invoice.context.PdfContext;
 
 public class TableSection implements PdfSection {
@@ -14,43 +15,78 @@ public class TableSection implements PdfSection {
     public void addToStream(PdfContext context, PDPageContentStream contentStream) throws Exception {
         drawTableHeader(contentStream, context.getStartY() - 250, context);
         drawTableRows(contentStream, context.getStartY() - 270, context);
+        addSubTotal(contentStream, context.getStartY() - 270 - 20 * context.getCustomerData().getItems().length,
+                context);
+        addTaxRate(contentStream, context.getStartY() - 270 - 20 * context.getCustomerData().getItems().length - 20,
+                context);
+        addTax(contentStream, context.getStartY() - 270 - 20 * context.getCustomerData().getItems().length - 20,
+                context);
+        addTotal(contentStream, context.getStartY() - 270 - 20 * context.getCustomerData().getItems().length - 40,
+                context);
     }
 
-    public static void drawTableRows(PDPageContentStream contentStream, float startY, PdfContext context) throws IOException {
-    float margin = context.getMargin();
-    float tableWidth = context.getA4_WIDTH() - margin * 2;
-    float[] colRatios = { 0.08f, 0.42f, 0.15f, 0.17f, 0.18f };
-    float[] colWidths = new float[colRatios.length];
-    float[] positions = new float[colRatios.length];
-    float x = margin;
-    for (int i = 0; i < colRatios.length; i++) {
-        colWidths[i] = tableWidth * colRatios[i];
-        positions[i] = x;
-        x += colWidths[i];
+    public void addSubTotal(PDPageContentStream contentStream, float startY, PdfContext context) throws IOException {
+        float totalY = startY - 20; 
+        String subTotalText = "Subtotal: " + context.getCustomerData().getSubTotal();
+        TextUtils.addTextToTheRight(contentStream, subTotalText, context, totalY);
     }
 
-    float rowHeight = 20;
-    float y = startY;
-    int index = 1;
+    public void addTax(PDPageContentStream contentStream, float startY, PdfContext context) throws IOException {
+        float  totalY = startY - 40; 
+        String taxText = "Tax: " + context.getCustomerData().getTax();
+        TextUtils.addTextToTheRight(contentStream, taxText, context, totalY);
+    }
 
-    for (InvoiceItem item : context.getCustomerData().getItems()) {
-        contentStream.setNonStrokingColor(Color.WHITE);
-        for (int i = 0; i < colWidths.length; i++) {
-            contentStream.addRect(positions[i], y - rowHeight + 5, colWidths[i], rowHeight);
-            contentStream.fill();
+    public void addTaxRate(PDPageContentStream contentStream, float startY, PdfContext context) throws IOException {
+        float totalY = startY - 20; 
+        String taxRateText = "Tax Rate: " + context.getCustomerData().getTaxRate() + "%";
+        TextUtils.addTextToTheRight(contentStream, taxRateText, context, totalY);
+
+    }
+
+    public void addTotal(PDPageContentStream contentStream, float startY, PdfContext context) throws IOException {
+        float totalY = startY - 60; 
+
+        TextUtils.addTextToTheRight(contentStream, "Total: " + context.getCustomerData().getTotal(), context, totalY);
+
+    }
+
+    public static void drawTableRows(PDPageContentStream contentStream, float startY, PdfContext context)
+            throws IOException {
+        float margin = context.getMargin();
+        float tableWidth = context.getA4_WIDTH() - margin * 2;
+        float[] colRatios = { 0.08f, 0.42f, 0.15f, 0.17f, 0.18f };
+        float[] colWidths = new float[colRatios.length];
+        float[] positions = new float[colRatios.length];
+        float x = margin;
+        for (int i = 0; i < colRatios.length; i++) {
+            colWidths[i] = tableWidth * colRatios[i];
+            positions[i] = x;
+            x += colWidths[i];
         }
 
-        contentStream.setNonStrokingColor(Color.BLACK);
-        drawText(contentStream, String.valueOf(index), positions[0] + 5, y, 12, false);
-        drawText(contentStream, item.getDescription(), positions[1] + 5, y, 12, false);
-        drawText(contentStream, String.valueOf(item.getQuantity()), positions[2] + 5, y, 12, false);
-        drawText(contentStream, String.format("%.2f", item.getUnitPrice()), positions[3] + 5, y, 12, false);
-        drawText(contentStream, String.format("%.2f", item.getTotalPrice()), positions[4] + 5, y, 12, false);
+        float rowHeight = 20;
+        float y = startY;
+        int index = 1;
 
-        y -= rowHeight;
-        index++;
+        for (InvoiceItem item : context.getCustomerData().getItems()) {
+            contentStream.setNonStrokingColor(Color.WHITE);
+            for (int i = 0; i < colWidths.length; i++) {
+                contentStream.addRect(positions[i], y - rowHeight + 5, colWidths[i], rowHeight);
+                contentStream.fill();
+            }
+
+            contentStream.setNonStrokingColor(Color.BLACK);
+            drawText(contentStream, String.valueOf(index), positions[0] + 5, y, 12, false);
+            drawText(contentStream, item.getDescription(), positions[1] + 5, y, 12, false);
+            drawText(contentStream, String.valueOf(item.getQuantity()), positions[2] + 5, y, 12, false);
+            drawText(contentStream, String.format("%.2f", item.getUnitPrice()), positions[3] + 5, y, 12, false);
+            drawText(contentStream, String.format("%.2f", item.getTotalPrice()), positions[4] + 5, y, 12, false);
+
+            y -= rowHeight;
+            index++;
+        }
     }
-}
 
     private static void drawTableHeader(PDPageContentStream contentStream, float y, PdfContext context)
             throws IOException {
@@ -59,10 +95,10 @@ public class TableSection implements PdfSection {
         float margin = context.getMargin();
         float tableWidth = context.getA4_WIDTH() - margin * 2;
 
-        // Define column width ratios (must sum to 1)
+        
         float[] colRatios = { 0.08f, 0.42f, 0.15f, 0.17f, 0.18f };
 
-        // Calculate column widths and positions
+        
         float[] colWidths = new float[headers.length];
         float[] positions = new float[headers.length];
         float x = margin;

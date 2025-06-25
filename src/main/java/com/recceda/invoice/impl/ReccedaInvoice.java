@@ -14,12 +14,15 @@ import com.recceda.invoice.common.CustomerInvoiceData;
 import com.recceda.invoice.common.InvoiceItem;
 import com.recceda.invoice.context.PdfContext;
 import com.recceda.invoice.impl.sections.HeaderSection;
+import com.recceda.invoice.impl.sections.PaymentInfoSection;
+import com.recceda.invoice.impl.sections.PaymentTermsSection;
 import com.recceda.invoice.impl.sections.TableSection;
 
 public class ReccedaInvoice {
 
     PDDocument document;
     PDType0Font font;
+    PDType0Font fontBold;
 
     public ReccedaInvoice() {
         document = new PDDocument();
@@ -28,6 +31,7 @@ public class ReccedaInvoice {
 
         try {
             font = PDType0Font.load(document, new File("src/main/resources/futura.ttf"));
+            fontBold = PDType0Font.load(document, new File("src/main/resources/futura_bold.ttf"));
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to load font");
@@ -45,19 +49,22 @@ public class ReccedaInvoice {
                     new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
                     new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
                     new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
-                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
-                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
-                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A")
+                
             };
 
-            CustomerInvoiceData customerInvoiceData = new CustomerInvoiceData("Faboda", 
-                    new String[]{"123 Default St.", "Default City", "Default Country"}, invoiceItems);
+            CustomerInvoiceData customerInvoiceData = new CustomerInvoiceData("Faboda",
+                    new String[] { "123 Default St.", "Default City", "Default Country" }, invoiceItems, "24 Jun 2025",
+                    "25 Jun 2025", "300", "30", "3", "300");
 
-            PdfContext context = new PdfContext(customerInvoiceData, font, document);
+            PdfContext context = new PdfContext(customerInvoiceData, font, document, fontBold);
             HeaderSection headerSection = new HeaderSection();
             TableSection tableSection = new TableSection();
             headerSection.addToStream(context, contentStream);
             tableSection.addToStream(context, contentStream);
+            PaymentInfoSection paymentInfoSection = new PaymentInfoSection();
+            paymentInfoSection.addToStream(context, contentStream);
+            PaymentTermsSection paymentTermsSection = new PaymentTermsSection();
+            paymentTermsSection.addToStream(context, contentStream);
 
         } catch (IOException e) {
             e.printStackTrace();

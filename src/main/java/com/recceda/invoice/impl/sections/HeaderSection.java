@@ -19,7 +19,6 @@ public class HeaderSection implements PdfSection {
     private static final String ADDRESS_RESOURCE = "/address";
     private static final String LOGO_RESOURCE = "/logo.png";
     private static final float LOGO_HEIGHT = 10f;
-    private static final float ADDRESS_START_Y_OFFSET = 20f;
     private static final float ADDRESS_LINE_SPACING = 15f;
     private static final float CUSTOMER_GAP_START = 60f;
     private static final float CUSTOMER_LINE_SPACING = 15f;
@@ -31,21 +30,35 @@ public class HeaderSection implements PdfSection {
             addInvoiceNumberToStream(contentStream, context);
             addAddressToStream(contentStream, context);
             addCustomerAddressToStream(contentStream, context);
+            addInvoiceDateToStream(contentStream, context);
+            addDueByDateToStream(contentStream, context);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error adding header section", e);
             throw new RuntimeException("Failed to add header section", e);
         }
     }
 
+    public void addInvoiceDateToStream(PDPageContentStream contentStream, PdfContext context) throws IOException {
+        String invoiceDateText = "Invoice Date: " + context.getCustomerData().getInvoiceDate();
+        TextUtils.addTextToTheRight(contentStream, invoiceDateText, context,
+                context.getStartY() - CUSTOMER_GAP_START * 2 - CUSTOMER_LINE_SPACING * 2 * 2);
+    }
+
+    public void addDueByDateToStream(PDPageContentStream contentStream, PdfContext context) throws IOException {
+        String dueDateText = "Due by: " + context.getCustomerData().getInvoiceDueByDate();
+        TextUtils.addTextToTheRight(contentStream, dueDateText, context,
+                context.getStartY() - CUSTOMER_GAP_START * 2 - CUSTOMER_LINE_SPACING * 2 * 2 - ADDRESS_LINE_SPACING);
+    }
+
     private void addInvoiceNumberToStream(PDPageContentStream contentStream, PdfContext context) throws IOException {
         String invoiceText = "Invoice Number: " + context.getInvoiceNumber();
-        TextUtils.addTextToTheRight(contentStream, invoiceText, context, context.getStartY());
+        TextUtils.addBoldTextToTheRight(contentStream, invoiceText, context, context.getStartY());
     }
 
     private void addCustomerAddressToStream(PDPageContentStream contentStream, PdfContext context) throws IOException {
         String customerName = context.getCustomerData().getCustomerName();
         float gap = CUSTOMER_GAP_START;
-        TextUtils.addTextToTheRight(contentStream, "Invoiced to", context, context.getStartY() - gap);
+        TextUtils.addBoldTextToTheRight(contentStream, "Invoiced to:", context, context.getStartY() - gap);
 
         TextUtils.addTextToTheRight(contentStream, customerName, context,
                 context.getStartY() - gap - CUSTOMER_LINE_SPACING);
@@ -53,7 +66,7 @@ public class HeaderSection implements PdfSection {
         String[] addressLines = context.getCustomerData().getAddressLines();
         if (addressLines == null || addressLines.length == 0)
             return;
-
+        gap += CUSTOMER_LINE_SPACING * 2;
         for (String line : addressLines) {
             TextUtils.addTextToTheRight(contentStream, line, context, context.getStartY() - gap);
             gap += CUSTOMER_LINE_SPACING;
@@ -61,11 +74,11 @@ public class HeaderSection implements PdfSection {
     }
 
     private void addAddressToStream(PDPageContentStream contentStream, PdfContext context) throws IOException {
-        float startY = context.getStartY() - ADDRESS_START_Y_OFFSET;
+        float startY = context.getStartY() - ADDRESS_LINE_SPACING * 3;
         String[] addressLines = getAddressLinesFromResource();
 
         for (String line : addressLines) {
-            TextUtils.addTextToTheLeft(contentStream, line, context, startY - ADDRESS_INITIAL_OFFSET);
+            TextUtils.addTextToTheLeft(contentStream, line, context, startY - ADDRESS_LINE_SPACING);
             startY -= ADDRESS_LINE_SPACING;
         }
     }
