@@ -28,13 +28,13 @@ public class PaymentTermsSection implements PdfSection {
     private String[] getPaymentTermsFromFile() {
         try (InputStream is = getClass().getResourceAsStream(PAYMENT_TERMS_PATH)) {
             if (is == null) {
-                throw new RuntimeException("Address resource not found: " + PAYMENT_TERMS_PATH);
+                throw new RuntimeException("Payment Terms resource not found: " + PAYMENT_TERMS_PATH);
             }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
                 return reader.lines().toArray(String[]::new);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to read address resource", e);
+            throw new RuntimeException("Failed to read Payment Terms resource", e);
         }
     }
 }
