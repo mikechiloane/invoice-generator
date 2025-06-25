@@ -2,14 +2,14 @@ package com.recceda.invoice.common;
 
 public class CustomerInvoiceData {
     private final String customerName;
-    private String[] addressLines;
-    private InvoiceItem[] items;
-    private String invoiceDate;
-    private String invoiceDueByDate;
-    private String subTotal;
-    private String tax;
-    private String taxRate;
-    private String total;
+    private final String[] addressLines;
+    private final InvoiceItem[] items;
+    private final String invoiceDate;
+    private final String invoiceDueByDate;
+    private final String subTotal;
+    private final String tax;
+    private final String taxRate;
+    private final String total;
 
     public CustomerInvoiceData(String customerName, String[] addressLines, InvoiceItem[] items, String invoiceDate,
             String invoiceDueByDate,
