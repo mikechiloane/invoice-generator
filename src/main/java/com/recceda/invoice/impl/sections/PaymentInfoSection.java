@@ -41,13 +41,13 @@ public class PaymentInfoSection implements PdfSection {
     private String[] getBankingDetailsFromFile() {
         try (InputStream is = getClass().getResourceAsStream(BANKING_DATA_PATH)) {
             if (is == null) {
-                throw new RuntimeException("Address resource not found: " + BANKING_DATA_PATH);
+                throw new RuntimeException("Banking data resource not found: " + BANKING_DATA_PATH);
             }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
                 return reader.lines().toArray(String[]::new);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to read address resource", e);
+            throw new RuntimeException("Failed to read banking data resource", e);
         }
     }
 
