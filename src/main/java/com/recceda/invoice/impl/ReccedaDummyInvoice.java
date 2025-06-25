@@ -17,13 +17,13 @@ import com.recceda.invoice.impl.sections.PaymentInfoSection;
 import com.recceda.invoice.impl.sections.PaymentTermsSection;
 import com.recceda.invoice.impl.sections.TableSection;
 
-public class ReccedaInvoice {
+public class ReccedaDummyInvoice {
 
     PDDocument document;
     PDType0Font font;
     PDType0Font fontBold;
 
-    public ReccedaInvoice() {
+    public ReccedaDummyInvoice() {
         document = new PDDocument();
         PDPage invoicePage = new PDPage(PDRectangle.A4);
         document.addPage(invoicePage);
@@ -77,9 +77,5 @@ public class ReccedaInvoice {
             throw new RuntimeException("Failed to save invoice", e);
         }
     }
-
-
-
-
 
 }
