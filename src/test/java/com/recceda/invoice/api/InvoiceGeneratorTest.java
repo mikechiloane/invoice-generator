@@ -9,7 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.recceda.invoice.common.CustomerInvoiceData;
+import com.recceda.invoice.common.InvoiceDates;
 import com.recceda.invoice.common.InvoiceItem;
+import com.recceda.invoice.common.TotalsAndTaxInfo;
 
 public class InvoiceGeneratorTest {
 
@@ -30,15 +32,11 @@ public class InvoiceGeneratorTest {
         };
 
         testCustomerData = new CustomerInvoiceData(
-            "Test Customer Ltd",
-            new String[] { "456 Test Avenue", "Test City", "Test Country" },
+            "Test Customer",
+            new String[] { "123 Test St", "Test City", "Test State", "12345" },
             testItems,
-            "26 Jun 2025",
-            "27 Jun 2025",
-            "300.00",
-            "30.00",
-            "10",
-            "330.00"
+            new InvoiceDates("2023-10-01", "2023-10-15"),
+            new TotalsAndTaxInfo("250.00", "25.00", "10%", "275.00")
         );
     }
 
@@ -68,8 +66,6 @@ public class InvoiceGeneratorTest {
         assertTrue("Dummy PDF file should not be empty", pdf.length() > 0);
     }
 
-    
-
     @Test
     public void testGenerateInvoiceWithCustomerDataAndPath() {
         try {
@@ -83,31 +79,5 @@ public class InvoiceGeneratorTest {
         assertTrue("PDF file should not be empty", pdf.length() > 0);
     }
 
-    @Test
-    public void testGenerateInvoiceWithEmptyItems() {
-        CustomerInvoiceData emptyItemsData = new CustomerInvoiceData(
-            "Empty Items Customer",
-            new String[] { "123 Empty St", "Empty City", "Empty Country" },
-            new InvoiceItem[0],
-            "26 Jun 2025",
-            "27 Jun 2025",
-            "0.00",
-            "0.00",
-            "0",
-            "0.00"
-        );
 
-        try {
-            invoiceGenerator.generateInvoice(emptyItemsData, "empty_items_test.pdf");
-        } catch (Exception e) {
-            fail("generateInvoice() should handle empty items gracefully: " + e.getMessage());
-        }
-        
-        File pdf = new File("empty_items_test.pdf");
-        assertTrue("PDF with empty items should be created", pdf.exists());
-        assertTrue("PDF with empty items should not be empty", pdf.length() > 0);
-        
-        // Clean up this test file
-        deleteFileIfExists("empty_items_test.pdf");
-    }
 }

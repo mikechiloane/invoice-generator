@@ -4,26 +4,22 @@ public class CustomerInvoiceData {
     private final String customerName;
     private final String[] addressLines;
     private final InvoiceItem[] items;
-    private final String invoiceDate;
-    private final String invoiceDueByDate;
-    private final String subTotal;
-    private final String tax;
-    private final String taxRate;
-    private final String total;
+    private final InvoiceDates invoiceDates;
 
-    public CustomerInvoiceData(String customerName, String[] addressLines, InvoiceItem[] items, String invoiceDate,
-            String invoiceDueByDate,
-            String subTotal, String tax, String taxRate, String total) {
+    private final TotalsAndTaxInfo totalsAndTaxInfo;
+
+    public CustomerInvoiceData(String customerName, String[] addressLines, InvoiceItem[] items,
+            InvoiceDates invoiceDates,
+            TotalsAndTaxInfo totalsAndTaxInfo) {
         this.addressLines = addressLines;
         this.items = items;
         this.customerName = customerName;
-        this.invoiceDate = invoiceDate;
-        this.invoiceDueByDate = invoiceDueByDate;
-        this.subTotal = subTotal;
-        this.tax = tax;
-        this.taxRate = taxRate;
-        this.total = total;
+        this.invoiceDates = invoiceDates;
+
+        this.totalsAndTaxInfo = totalsAndTaxInfo;
     }
+
+    
 
     public String[] getAddressLines() {
         return addressLines;
@@ -37,28 +33,12 @@ public class CustomerInvoiceData {
         return customerName;
     }
 
-    public String getInvoiceDate() {
-        return invoiceDate;
+    public TotalsAndTaxInfo getTotalsAndTaxInfo() {
+        return totalsAndTaxInfo;
     }
 
-    public String getInvoiceDueByDate() {
-        return invoiceDueByDate;
-    }
-
-    public String getSubTotal() {
-        return subTotal;
-    }
-
-    public String getTax() {
-        return tax;
-    }
-
-    public String getTaxRate() {
-        return taxRate;
-    }
-
-    public String getTotal() {
-        return total;
+    public InvoiceDates getInvoiceDates() {
+        return invoiceDates;
     }
 
 }

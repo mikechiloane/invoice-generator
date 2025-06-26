@@ -30,19 +30,19 @@ public class TableSection implements PdfSection {
     }
     public void addSubTotal(PDPageContentStream contentStream, float startY, PdfContext context) throws IOException {
         float totalY = startY - 20; 
-        String subTotalText = "Subtotal: " + context.getCustomerData().getSubTotal();
+        String subTotalText = "Subtotal: " + context.getCustomerData().getTotalsAndTaxInfo().getSubTotal();
         TextUtils.addTextToTheRight(contentStream, subTotalText, context, totalY);
     }
 
     public void addTax(PDPageContentStream contentStream, float startY, PdfContext context) throws IOException {
         float  totalY = startY - 40; 
-        String taxText = "Tax: " + context.getCustomerData().getTax();
+        String taxText = "Tax: " + context.getCustomerData().getTotalsAndTaxInfo().getTax();
         TextUtils.addTextToTheRight(contentStream, taxText, context, totalY);
     }
 
     public void addTaxRate(PDPageContentStream contentStream, float startY, PdfContext context) throws IOException {
         float totalY = startY - 20; 
-        String taxRateText = "Tax Rate: " + context.getCustomerData().getTaxRate() + "%";
+        String taxRateText = "Tax Rate: " + context.getCustomerData().getTotalsAndTaxInfo().getTaxRate() + "%";
         TextUtils.addTextToTheRight(contentStream, taxRateText, context, totalY);
 
     }
@@ -50,7 +50,7 @@ public class TableSection implements PdfSection {
     public void addTotal(PDPageContentStream contentStream, float startY, PdfContext context) throws IOException {
         float totalY = startY - 60; 
 
-        TextUtils.addTextToTheRight(contentStream, "Total: " + context.getCustomerData().getTotal(), context, totalY);
+        TextUtils.addTextToTheRight(contentStream, "Total: " + context.getCustomerData().getTotalsAndTaxInfo().getTotal(), context, totalY);
 
     }
 
