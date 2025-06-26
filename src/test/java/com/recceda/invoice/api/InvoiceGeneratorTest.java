@@ -44,7 +44,7 @@ public class InvoiceGeneratorTest {
 
     @After
     public void cleanup() {
-        deleteFileIfExists(DUMMY_PDF_PATH);
+         deleteFileIfExists(DUMMY_PDF_PATH);
         deleteFileIfExists(CUSTOM_PDF_PATH);
     }
 
@@ -67,8 +67,6 @@ public class InvoiceGeneratorTest {
         assertTrue("Dummy PDF file should be created", pdf.exists());
         assertTrue("Dummy PDF file should not be empty", pdf.length() > 0);
     }
-
-    
 
     @Test
     public void testGenerateInvoiceWithCustomerDataAndPath() {
@@ -106,8 +104,19 @@ public class InvoiceGeneratorTest {
         File pdf = new File("empty_items_test.pdf");
         assertTrue("PDF with empty items should be created", pdf.exists());
         assertTrue("PDF with empty items should not be empty", pdf.length() > 0);
-        
-        // Clean up this test file
         deleteFileIfExists("empty_items_test.pdf");
+    }
+
+    @Test
+    public void testGenerateInvoiceWithDefaultPath() {
+        try {
+            File generatedInvoice = invoiceGenerator.generateInvoice(testCustomerData);
+            assertTrue("Generated invoice file should exist", generatedInvoice.exists());
+            assertTrue("Generated invoice file should not be empty", generatedInvoice.length() > 0);
+
+            deleteFileIfExists(generatedInvoice.getPath());
+        } catch (Exception e) {
+            fail("generateInvoice(customerInvoiceData) threw an exception: " + e.getMessage());
+        }
     }
 }

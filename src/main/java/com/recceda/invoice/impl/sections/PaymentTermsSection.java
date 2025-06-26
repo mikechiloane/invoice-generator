@@ -14,14 +14,14 @@ public class PaymentTermsSection implements PdfSection {
     private final String PAYMENT_TERMS_PATH = "/payment_terms";
     @Override
     public void addToStream(PdfContext context, PDPageContentStream contentStream) throws Exception {
-        float startY =  230; // Adjust the Y position as needed
+        float startY =  230;
         String paymentTerms = "Payment Terms";
         TextUtils.addBoldTextToTheLeft(contentStream, paymentTerms, context, startY);
         String[] paymentTermsLines = getPaymentTermsFromFile();
-        startY -= 15; // Adjust the spacing between lines
+        startY -= 15;
         for (String line : paymentTermsLines) {
             TextUtils.addTextToTheLeft(contentStream, line, context, startY);
-            startY -= 15; // Adjust the spacing between lines
+            startY -= 15;
         }
         
     }

@@ -2,6 +2,7 @@ package com.recceda.invoice.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -65,6 +66,12 @@ public class InvoiceGenerator {
         } catch (IOException e) {
             throw new RuntimeException("Failed to save invoice", e);
         }
+    }
+
+    public File generateInvoice(CustomerInvoiceData customerInvoiceData) {
+        String outputPath = "invoice_" + UUID.randomUUID() + ".pdf";
+        generateInvoice(customerInvoiceData, outputPath);
+        return new File(outputPath);
     }
 
 }
