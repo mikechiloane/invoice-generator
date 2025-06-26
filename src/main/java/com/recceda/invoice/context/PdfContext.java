@@ -11,11 +11,12 @@ import com.recceda.invoice.common.CustomerInvoiceData;
 public final class PdfContext {
     private final String invoiceNumber;
     private final CustomerInvoiceData customerData;
-    private final Color primaryColor = new Color(25, 43, 55); // Dark Blue Color
+    private final Color primaryColor = new Color(25, 43, 55);
 
     private final PDDocument document;
 
     private final PDType0Font font;
+    private final PDType0Font fontBold;
 
     private final float A4_WIDTH = PDRectangle.A4.getWidth();
     private final float A4_HEIGHT = PDRectangle.A4.getHeight();
@@ -25,11 +26,12 @@ public final class PdfContext {
     private final float startX = margin;
     private final float startY = A4_HEIGHT - margin - 20;
 
-    public PdfContext(CustomerInvoiceData customerData, PDType0Font font, PDDocument document) {
+    public PdfContext(CustomerInvoiceData customerData, PDType0Font font, PDDocument document, PDType0Font fontBold) {
         this.invoiceNumber = this.generateInvoiceNumber();
         this.customerData = customerData;
         this.font = font;
         this.document = document;
+        this.fontBold = fontBold;
     }
 
     public String generateInvoiceNumber() {
@@ -82,6 +84,10 @@ public final class PdfContext {
 
     public Color getPrimaryColor() {
         return primaryColor;
+    }
+
+    public PDType0Font getFontBold() {
+        return fontBold;
     }
 
 }

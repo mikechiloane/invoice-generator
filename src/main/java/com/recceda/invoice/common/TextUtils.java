@@ -17,7 +17,31 @@ public class TextUtils {
         contentStream.endText();
     }
 
-    public static  void addTextToTheRight(PDPageContentStream contentStream, String text, PdfContext context,
+    public static void addBoldTextToTheLeft(PDPageContentStream contentStream, String text, PdfContext context,
+            float startY) throws IOException {
+        float fontSize = 12;
+        contentStream.beginText();
+        contentStream.setFont(context.getFontBold(), fontSize);
+        contentStream.newLineAtOffset(context.getStartX(), startY);
+        contentStream.showText(text);
+        contentStream.endText();
+    }
+
+
+    public static void addBoldTextToTheRight(PDPageContentStream contentStream, String text, PdfContext context,
+            float startY) throws IOException {
+        float fontSize = 12;
+        float textWidth = context.getFontBold().getStringWidth(text) / 1000 * fontSize;
+        float textX = context.getA4_WIDTH() - context.getMargin() - textWidth;
+
+        contentStream.beginText();
+        contentStream.setFont(context.getFontBold(), fontSize);
+        contentStream.newLineAtOffset(textX, startY);
+        contentStream.showText(text);
+        contentStream.endText();
+    }
+
+    public static void addTextToTheRight(PDPageContentStream contentStream, String text, PdfContext context,
             float startY) throws IOException {
         float fontSize = 12;
         float textWidth = context.getFont().getStringWidth(text) / 1000 * fontSize;
