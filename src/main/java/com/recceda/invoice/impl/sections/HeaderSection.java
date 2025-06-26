@@ -38,13 +38,13 @@ public class HeaderSection implements PdfSection {
         }
     }
 
-    public void addInvoiceDateToStream(PDPageContentStream contentStream, PdfContext context) throws IOException {
+    private void addInvoiceDateToStream(PDPageContentStream contentStream, PdfContext context) throws IOException {
         String invoiceDateText = "Invoice Date: " + context.getCustomerData().getInvoiceDate();
         TextUtils.addTextToTheRight(contentStream, invoiceDateText, context,
                 context.getStartY() - CUSTOMER_GAP_START * 2 - CUSTOMER_LINE_SPACING * 2 * 2);
     }
 
-    public void addDueByDateToStream(PDPageContentStream contentStream, PdfContext context) throws IOException {
+    private void addDueByDateToStream(PDPageContentStream contentStream, PdfContext context) throws IOException {
         String dueDateText = "Due by: " + context.getCustomerData().getInvoiceDueByDate();
         TextUtils.addTextToTheRight(contentStream, dueDateText, context,
                 context.getStartY() - CUSTOMER_GAP_START * 2 - CUSTOMER_LINE_SPACING * 2 * 2 - ADDRESS_LINE_SPACING);
