@@ -38,7 +38,7 @@ public class InvoiceGenerator {
             font = PDType0Font.load(document, new File("src/main/resources/futura.ttf"));
             fontBold = PDType0Font.load(document, new File("src/main/resources/futura_bold.ttf"));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load font");
+            throw new RuntimeException("Failed to load font", e);
         }
     }
 
