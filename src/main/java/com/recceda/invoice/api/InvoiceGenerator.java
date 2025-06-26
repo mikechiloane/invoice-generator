@@ -26,9 +26,6 @@ public class InvoiceGenerator {
         initializeDocument();
     }
 
-    
-
-
     private void initializeDocument() {
         document = new PDDocument();
         PDPage invoicePage = new PDPage(PDRectangle.A4);
@@ -42,42 +39,11 @@ public class InvoiceGenerator {
         }
     }
 
-    public void generateInvoice(CustomerInvoiceData customerInvoiceData) {
-
-        try (PDPageContentStream contentStream = new PDPageContentStream(document, document.getPage(0),
-                PDPageContentStream.AppendMode.APPEND, true, true)) {
-
-
-            PdfContext context = new PdfContext(customerInvoiceData, font, document, fontBold);
-            HeaderSection headerSection = new HeaderSection();
-            TableSection tableSection = new TableSection();
-            headerSection.addToStream(context, contentStream);
-            tableSection.addToStream(context, contentStream);
-            PaymentInfoSection paymentInfoSection = new PaymentInfoSection();
-            paymentInfoSection.addToStream(context, contentStream);
-            PaymentTermsSection paymentTermsSection = new PaymentTermsSection();
-            paymentTermsSection.addToStream(context, contentStream);
-
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            document.save("invoice.pdf");
-            document.close();
-            System.out.println("Invoice generated successfully!");
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to save invoice", e);
-        }
-    }
-
     public void generateInvoice(CustomerInvoiceData customerInvoiceData, String outputPath) {
 
         try (PDPageContentStream contentStream = new PDPageContentStream(document, document.getPage(0),
                 PDPageContentStream.AppendMode.APPEND, true, true)) {
 
-
             PdfContext context = new PdfContext(customerInvoiceData, font, document, fontBold);
             HeaderSection headerSection = new HeaderSection();
             TableSection tableSection = new TableSection();
@@ -88,8 +54,7 @@ public class InvoiceGenerator {
             PaymentTermsSection paymentTermsSection = new PaymentTermsSection();
             paymentTermsSection.addToStream(context, contentStream);
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
