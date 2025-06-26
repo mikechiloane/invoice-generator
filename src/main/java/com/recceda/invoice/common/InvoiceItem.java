@@ -6,7 +6,7 @@ public class InvoiceItem {
     private final Double unitPrice;
     private final  Double totalPrice;
 
-    public InvoiceItem(String itemName, Integer quantity, Double unitPrice,  String itemId, String description) {
+    public InvoiceItem(Integer quantity, Double unitPrice,  String itemId, String description) {
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.totalPrice = quantity * unitPrice;

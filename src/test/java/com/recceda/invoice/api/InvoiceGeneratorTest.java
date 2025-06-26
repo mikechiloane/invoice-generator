@@ -26,9 +26,9 @@ public class InvoiceGeneratorTest {
         invoiceGenerator = new InvoiceGenerator();
         
         InvoiceItem[] testItems = new InvoiceItem[] {
-            new InvoiceItem("Test Product A", 2, 75.0, "High quality test product", "Electronics"),
-            new InvoiceItem("Test Service B", 1, 150.0, "Premium test service", "Services"),
-            new InvoiceItem("Test Item C", 3, 25.0, "Budget test item", "Accessories")
+            new InvoiceItem( 2, 75.0, "High quality test product", "Electronics"),
+            new InvoiceItem( 1, 150.0, "Premium test service", "Services"),
+            new InvoiceItem( 3, 25.0, "Budget test item", "Accessories")
         };
 
         testCustomerData = new CustomerInvoiceData(

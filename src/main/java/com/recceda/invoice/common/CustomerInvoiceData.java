@@ -19,8 +19,6 @@ public class CustomerInvoiceData {
         this.totalsAndTaxInfo = totalsAndTaxInfo;
     }
 
-    
-
     public String[] getAddressLines() {
         return addressLines;
     }
