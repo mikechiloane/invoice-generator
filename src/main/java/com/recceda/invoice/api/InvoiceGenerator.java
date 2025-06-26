@@ -1,4 +1,4 @@
-package com.recceda.invoice.impl;
+package com.recceda.invoice.api;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,20 +10,26 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 
 import com.recceda.invoice.common.CustomerInvoiceData;
-import com.recceda.invoice.common.InvoiceItem;
 import com.recceda.invoice.context.PdfContext;
 import com.recceda.invoice.impl.sections.HeaderSection;
 import com.recceda.invoice.impl.sections.PaymentInfoSection;
 import com.recceda.invoice.impl.sections.PaymentTermsSection;
 import com.recceda.invoice.impl.sections.TableSection;
 
-public class ReccedaDummyInvoice {
+public class InvoiceGenerator {
 
-    PDDocument document;
-    PDType0Font font;
-    PDType0Font fontBold;
+    private PDDocument document;
+    private PDType0Font font;
+    private PDType0Font fontBold;
 
-    public ReccedaDummyInvoice() {
+    public InvoiceGenerator() {
+        initializeDocument();
+    }
+
+    
+
+
+    private void initializeDocument() {
         document = new PDDocument();
         PDPage invoicePage = new PDPage(PDRectangle.A4);
         document.addPage(invoicePage);
@@ -34,25 +40,13 @@ public class ReccedaDummyInvoice {
         } catch (IOException e) {
             throw new RuntimeException("Failed to load font");
         }
-
     }
 
-    public void generateInvoice() {
+    public void generateInvoice(CustomerInvoiceData customerInvoiceData) {
 
         try (PDPageContentStream contentStream = new PDPageContentStream(document, document.getPage(0),
                 PDPageContentStream.AppendMode.APPEND, true, true)) {
 
-            InvoiceItem[] invoiceItems = new InvoiceItem[] {
-
-                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
-                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
-                    new InvoiceItem("Item 1", 2, 50.0, "Descr", "Category A"),
-                
-            };
-
-            CustomerInvoiceData customerInvoiceData = new CustomerInvoiceData("Faboda",
-                    new String[] { "123 Default St.", "Default City", "Default Country" }, invoiceItems, "24 Jun 2025",
-                    "25 Jun 2025", "300", "30", "3", "300");
 
             PdfContext context = new PdfContext(customerInvoiceData, font, document, fontBold);
             HeaderSection headerSection = new HeaderSection();
@@ -71,6 +65,36 @@ public class ReccedaDummyInvoice {
 
         try {
             document.save("invoice.pdf");
+            document.close();
+            System.out.println("Invoice generated successfully!");
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save invoice", e);
+        }
+    }
+
+    public void generateInvoice(CustomerInvoiceData customerInvoiceData, String outputPath) {
+
+        try (PDPageContentStream contentStream = new PDPageContentStream(document, document.getPage(0),
+                PDPageContentStream.AppendMode.APPEND, true, true)) {
+
+
+            PdfContext context = new PdfContext(customerInvoiceData, font, document, fontBold);
+            HeaderSection headerSection = new HeaderSection();
+            TableSection tableSection = new TableSection();
+            headerSection.addToStream(context, contentStream);
+            tableSection.addToStream(context, contentStream);
+            PaymentInfoSection paymentInfoSection = new PaymentInfoSection();
+            paymentInfoSection.addToStream(context, contentStream);
+            PaymentTermsSection paymentTermsSection = new PaymentTermsSection();
+            paymentTermsSection.addToStream(context, contentStream);
+
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            document.save(outputPath);
             document.close();
             System.out.println("Invoice generated successfully!");
         } catch (IOException e) {
