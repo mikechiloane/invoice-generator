@@ -2,6 +2,8 @@ package com.recceda.invoice.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.UUID;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -32,8 +34,11 @@ public class InvoiceGenerator {
         document.addPage(invoicePage);
 
         try {
-            font = PDType0Font.load(document, new File("src/main/resources/futura.ttf"));
-            fontBold = PDType0Font.load(document, new File("src/main/resources/futura_bold.ttf"));
+            InputStream futuraFont = getClass().getResourceAsStream("/futura.ttf");
+            InputStream futuraBoldFont = getClass().getResourceAsStream("/futura_bold.ttf");
+
+            font = PDType0Font.load(document, futuraFont);
+            fontBold = PDType0Font.load(document, futuraBoldFont);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load font", e);
         }
@@ -65,6 +70,12 @@ public class InvoiceGenerator {
         } catch (IOException e) {
             throw new RuntimeException("Failed to save invoice", e);
         }
+    }
+
+    public File generateInvoice(CustomerInvoiceData customerInvoiceData) {
+        String outputPath = UUID.randomUUID().toString() + "_invoice.pdf";
+        generateInvoice(customerInvoiceData, outputPath);
+        return new File(outputPath);
     }
 
 }
