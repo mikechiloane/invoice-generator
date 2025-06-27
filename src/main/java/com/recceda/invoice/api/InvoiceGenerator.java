@@ -3,7 +3,6 @@ package com.recceda.invoice.api;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.UUID;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -45,7 +44,6 @@ public class InvoiceGenerator {
     }
 
     public void generateInvoice(CustomerInvoiceData customerInvoiceData, String outputPath) {
-
         try (PDPageContentStream contentStream = new PDPageContentStream(document, document.getPage(0),
                 PDPageContentStream.AppendMode.APPEND, true, true)) {
 
@@ -72,8 +70,7 @@ public class InvoiceGenerator {
         }
     }
 
-    public File generateInvoice(CustomerInvoiceData customerInvoiceData) {
-        String outputPath = UUID.randomUUID().toString() + "_invoice.pdf";
+    public File generateInvoiceToPath(CustomerInvoiceData customerInvoiceData, String outputPath) {
         generateInvoice(customerInvoiceData, outputPath);
         return new File(outputPath);
     }
