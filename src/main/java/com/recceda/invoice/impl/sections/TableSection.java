@@ -81,7 +81,7 @@ public class TableSection implements PdfSection {
 
             contentStream.setNonStrokingColor(Color.BLACK);
             drawText(contentStream, String.valueOf(index), positions[0] + 5, y);
-            drawText(contentStream, item.getDescription(), positions[1] + 5, y);
+            drawText(contentStream, item.getItemName(), positions[1] + 5, y);
             drawText(contentStream, String.valueOf(item.getQuantity()), positions[2] + 5, y);
             drawText(contentStream, String.format("%.2f", item.getUnitPrice()), positions[3] + 5, y);
             drawText(contentStream, String.format("%.2f", item.getTotalPrice()), positions[4] + 5, y);
@@ -93,7 +93,7 @@ public class TableSection implements PdfSection {
 
     private static void drawTableHeader(PDPageContentStream contentStream, float y, PdfContext context)
             throws IOException {
-        String[] headers = { "No.", "Description", "Quantity", "Item Price", "Total" };
+        String[] headers = { "No.", "Item Name", "Quantity", "Item Price", "Total" };
 
         float margin = context.getMargin();
         float tableWidth = context.getA4_WIDTH() - margin * 2;

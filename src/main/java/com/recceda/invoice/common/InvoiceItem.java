@@ -1,16 +1,16 @@
 package com.recceda.invoice.common;
 
 public class InvoiceItem {
-    private final String description;
+    private final String itemName;
     private final  Integer quantity;
     private final Double unitPrice;
     private final  Double totalPrice;
 
-    public InvoiceItem(Integer quantity, Double unitPrice,  String itemId, String description) {
+    public InvoiceItem(Integer quantity, Double unitPrice, String itemName) {
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.totalPrice = quantity * unitPrice;
-        this.description = description;
+        this.itemName = itemName;
     }
 
 
@@ -29,8 +29,8 @@ public class InvoiceItem {
 
 
 
-    public String getDescription() {
-        return description;
+    public String getItemName() {
+        return itemName;
     }
 
 }
