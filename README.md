@@ -295,6 +295,5 @@ For issues and questions:
 
 ---
 
-**Version**: 1.0.0  
 **Last Updated**: June 26, 2025  
 **Maintainer**: Recceda Team
