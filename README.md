@@ -34,7 +34,7 @@ A Java-based PDF invoice generator built with Apache PDFBox that creates profess
 - **Maven 3.6+** for dependency management and building
 - **Apache PDFBox 3.0.5** (managed via Maven)
 
-## 🚀 Installation
+## Installation
 
 1. **Clone the repository:**
    ```bash
@@ -57,7 +57,7 @@ A Java-based PDF invoice generator built with Apache PDFBox that creates profess
    mvn package
    ```
 
-## 💡 Usage
+##  Usage
 
 ### Basic Usage
 
